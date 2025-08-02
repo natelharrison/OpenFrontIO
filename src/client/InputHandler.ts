@@ -322,6 +322,19 @@ export class InputHandler {
 
       this.activeKeys.delete(e.code);
     });
+
+    const clearKeys = () => this.activeKeys.clear();
+
+    window.addEventListener("blur", clearKeys);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== "visible") clearKeys();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) {
+        clearKeys();
+      }
+    });
   }
 
   private onPointerDown(event: PointerEvent) {
